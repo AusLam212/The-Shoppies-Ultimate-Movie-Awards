@@ -15,7 +15,8 @@ function SearchPage() {
         results: []
     });
     const [nominees, setNominees] = useState({
-        nominees: []
+        nominees: [],
+        count: 0
     });
     
     useEffect(() => {
@@ -41,14 +42,29 @@ function SearchPage() {
     }
 
     function nominateMovie(data) {
-        console.log(data);
-        setNominees({
-            nominees: [
-                ...nominees.nominees,
-                data
-            ]
-        });
-        console.log(nominees.nominees);
+        if (nominees.nominees.length < 4) {
+            console.log(data);
+            setNominees({
+                nominees: [
+                    ...nominees.nominees,
+                    data
+                ]
+            });
+            console.log(nominees.nominees);
+            
+        } else if (nominees.count === 4) {
+            console.log(data);
+            setNominees({
+                nominees: [
+                    ...nominees.nominees,
+                    data
+                ]
+            });
+            console.log(nominees.nominees);
+            alert("You have made your 5 nominations!")
+        } else {
+            alert("You've already made 5 nominations...")
+        }
     }
 
     function deleteNomination(data) {
