@@ -4,22 +4,22 @@ import Title from "../../components/Title/Title";
 import SearchList from "../../components/SearchList/SearchList";
 import SearchListItem from "../../components/SearchListItem/SearchListItem";
 import NomineeList from "../../components/NomineeList/NomineeList";
+import NomineeItem from "../../components/NomineeItem/NomineeItem";
+import Button from "../../components/Button/Button";
 import API from "../../utils/API";
 
 
 function SearchPage() {
     const [search, setSearch] = useState({
-        search: "",
+        earcsh: "",
         results: []
     });
     const [nominees, setNominees] = useState({
-        nominees: [],
-        at5Nominees: false
-    })
+        nominees: []
+    });
     
     useEffect(() => {
         const timeOutId = setTimeout(() => {
-            console.log(search.search);
             makeSearch();
         }, 500);
         return () => clearTimeout(timeOutId);
@@ -36,17 +36,25 @@ function SearchPage() {
                 .then(res => {
                     setSearch({results: res.data.Search});
                 })
-                .then(() => {
-                    console.log(search.results)
-                })
                 .catch(err => console.log(err))
         }
     }
 
-    var nominateMovie = event => {
-        
+    function nominateMovie(data) {
+        console.log(data);
+        setNominees({
+            nominees: [
+                ...nominees.nominees,
+                data
+            ]
+        });
+        console.log(nominees.nominees);
     }
 
+    function deleteNomination(data) {
+        var filteredNominees = nominees.nominees.filter(nom => nom.imdbID !== data.imdbID)
+        setNominees({nominees: filteredNominees});
+    }
 
     return (
         <div>
@@ -56,14 +64,25 @@ function SearchPage() {
                 <SearchList>
                     {search.results ? (
                         search.results.map(movie => (
-                            <SearchListItem img={movie.Poster} title={movie.Title} />
+                            <SearchListItem key={movie.imdbID} id={movie.imdbID} img={movie.Poster} title={movie.Title} year={movie.Year}>
+                                <Button disabled={nominees.nominees.filter((nominee) => nominee.imdbID === movie.imdbID ).length === 1} onClick={() => nominateMovie(movie)}>Vote!</Button>
+                            </SearchListItem>
                         ))
                     ) : (
-                        <h3>No Results to Display...</h3>
+                        <h3>No Results to Display... Make a search!</h3>
                     )}
                 </SearchList>
                 <NomineeList>
-                    <h1>HELLO!</h1>
+                    {nominees.nominees.length > 0 ? (
+                        nominees.nominees.map(nominee => (
+                            <NomineeItem key={nominee.imdbID} id={nominee.imdbID} img={nominee.Poster} title={nominee.Title} year={nominee.Year}>
+                                <Button disabled={false} onClick={() => deleteNomination(nominee)}>DELETE</Button>
+                            </NomineeItem>
+                        ))
+                        ) : (
+                            <h3 style={{textAlign: "center"}}>Your nominations will appear here!</h3>
+                        )
+                    }
                 </NomineeList>
             </div>
         </div>

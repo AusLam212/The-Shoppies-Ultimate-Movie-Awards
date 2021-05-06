@@ -1,14 +1,14 @@
 import React from "react";
-import "./VoteButton.css";
+import "./Button.css";
 
-function VoteButton() {
+function Button(props) {
     return (
         <div className="row">
             <div className="col-sm-12"  id="vote-button">
-                <button>VOTE</button>
+                <button disabled={props.disabled} onClick={props.onClick}>{props.children}</button>
             </div>
         </div>
     )
 }
 
-export default VoteButton;
+export default Button;

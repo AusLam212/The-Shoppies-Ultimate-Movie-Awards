@@ -1,4 +1,5 @@
 import React from "react";
+import "./NomineeList.css";
 
 function NomineeList(props) {
     return (

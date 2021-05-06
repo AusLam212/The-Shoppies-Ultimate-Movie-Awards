@@ -1,11 +1,11 @@
 import React from "react";
-import "./SearchListItem.css";
+import "./NomineeItem.css";
 
-function SearchListItem({ img, title, year, children}) {
+function NomineeItem({ img, title, year, children}) {
     return (
         <div className="row content">
             <div className="col-sm-12 col-md-6">
-                <img alt={title} src={img} default="https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg" />
+                <img alt={title} src={img ? img : "https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg" } />
             </div>
             <div className="col-sm-12 col-md-6">
                 <div className="row">
@@ -28,4 +28,4 @@ function SearchListItem({ img, title, year, children}) {
     )
 }
 
-export default SearchListItem;
+export default NomineeItem;
