@@ -3,7 +3,7 @@ import "./NomineeList.css";
 
 function NomineeList(props) {
     return (
-        <div className="col-sm-12 col-md-6">
+        <div className="col-sm-12 col-md-7" id="nomineeList-container">
             {props.children}
         </div>
     )

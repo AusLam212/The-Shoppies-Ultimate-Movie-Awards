@@ -1,11 +1,11 @@
-img {
+#search-content-img {
     width: 100%;
-    height: 250px;
+    height: 150px;
 }
 
-.content {
+#search-content {
     padding: 20px;
     margin: 20px;
-    background-color: white;
-    border-radius: 25px;
+    height: auto;
 }
+

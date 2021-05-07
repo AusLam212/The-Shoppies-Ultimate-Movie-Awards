@@ -1,0 +1,14 @@
+#banner {
+    text-align: center;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 40px;
+}
+
+#heading {
+    padding: 10px;
+    color: white;
+}
+
+#winner-button {
+    margin: 10px;
+}

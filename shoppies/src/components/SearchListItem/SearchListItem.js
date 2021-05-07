@@ -3,11 +3,11 @@ import "./SearchListItem.css";
 
 function SearchListItem({ img, title, year, children}) {
     return (
-        <div className="row content">
-            <div className="col-sm-12 col-md-6">
-                <img alt={title} src={img} default="https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg" />
+        <div className="row" id="search-content">
+            <div className="col-sm-12 col-md-4">
+                <img alt={title} src={img} id="search-content-img" />
             </div>
-            <div className="col-sm-12 col-md-6">
+            <div className="col-sm-12 col-md-8">
                 <div className="row">
                     <div className="col-sm-12"  id="movie-tilte">
                         <h5>{title}</h5>

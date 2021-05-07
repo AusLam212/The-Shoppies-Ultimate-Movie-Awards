@@ -6,25 +6,29 @@ import SearchListItem from "../../components/SearchListItem/SearchListItem";
 import NomineeList from "../../components/NomineeList/NomineeList";
 import NomineeItem from "../../components/NomineeItem/NomineeItem";
 import Button from "../../components/Button/Button";
+import Banner from "../../components/Banner/Banner";
 import API from "../../utils/API";
 
 
 function SearchPage() {
     const [search, setSearch] = useState({
-        earcsh: "",
+        search: "",
         results: []
     });
-    const [nominees, setNominees] = useState({
-        nominees: [],
-        count: 0
-    });
-    
     useEffect(() => {
         const timeOutId = setTimeout(() => {
             makeSearch();
         }, 500);
         return () => clearTimeout(timeOutId);
     }, [search.search]);
+
+    var initialNominees = JSON.parse(window.localStorage.getItem("nomineeKey")) || [];
+    const [nominees, setNominees] = useState({
+        nominees: initialNominees
+    });
+    useEffect(() => {
+        window.localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees));
+    })
 
     var handleInputChange = event => {
         var { value } = event.target;
@@ -42,7 +46,7 @@ function SearchPage() {
     }
 
     function nominateMovie(data) {
-        if (nominees.nominees.length < 4) {
+        if (nominees.nominees.length < 5) {
             console.log(data);
             setNominees({
                 nominees: [
@@ -51,17 +55,6 @@ function SearchPage() {
                 ]
             });
             console.log(nominees.nominees);
-            
-        } else if (nominees.count === 4) {
-            console.log(data);
-            setNominees({
-                nominees: [
-                    ...nominees.nominees,
-                    data
-                ]
-            });
-            console.log(nominees.nominees);
-            alert("You have made your 5 nominations!")
         } else {
             alert("You've already made 5 nominations...")
         }
@@ -70,25 +63,34 @@ function SearchPage() {
     function deleteNomination(data) {
         var filteredNominees = nominees.nominees.filter(nom => nom.imdbID !== data.imdbID)
         setNominees({nominees: filteredNominees});
+        localStorage.clear();
+        localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees))
     }
 
     return (
         <div>
             <Title>Welcome to, THE SHOPPIES!</Title>
             <SearchBar onChange={handleInputChange} />
+            {nominees.nominees.length === 5 ? (
+                <Banner />
+            ) : (
+                null
+            )}
             <div className="row">
                 <SearchList>
+                    <h2 style={{textAlign: "center", marginTop: "20px", textDecoration: "underline"}}>Search:</h2>
                     {search.results ? (
                         search.results.map(movie => (
                             <SearchListItem key={movie.imdbID} id={movie.imdbID} img={movie.Poster} title={movie.Title} year={movie.Year}>
-                                <Button disabled={nominees.nominees.filter((nominee) => nominee.imdbID === movie.imdbID ).length === 1} onClick={() => nominateMovie(movie)}>Vote!</Button>
+                                <Button disabled={nominees.nominees.filter(nominee => nominee.imdbID === movie.imdbID).length === 1} onClick={() => nominateMovie(movie)}>Vote!</Button>
                             </SearchListItem>
                         ))
                     ) : (
-                        <h3>No Results to Display... Make a search!</h3>
+                        <h3 style={{textAlign: "center"}}>...</h3>
                     )}
                 </SearchList>
                 <NomineeList>
+                    <h2 style={{textAlign: "center", marginTop: "20px", textDecoration: "underline"}}>Nominees: {nominees.nominees.length}/5</h2>
                     {nominees.nominees.length > 0 ? (
                         nominees.nominees.map(nominee => (
                             <NomineeItem key={nominee.imdbID} id={nominee.imdbID} img={nominee.Poster} title={nominee.Title} year={nominee.Year}>
@@ -96,7 +98,7 @@ function SearchPage() {
                             </NomineeItem>
                         ))
                         ) : (
-                            <h3 style={{textAlign: "center"}}>Your nominations will appear here!</h3>
+                            null
                         )
                     }
                 </NomineeList>
