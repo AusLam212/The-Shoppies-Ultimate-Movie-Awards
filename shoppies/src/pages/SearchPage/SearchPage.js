@@ -24,11 +24,14 @@ function SearchPage() {
 
     var initialNominees = JSON.parse(window.localStorage.getItem("nomineeKey")) || [];
     const [nominees, setNominees] = useState({
-        nominees: initialNominees
+        nominees: initialNominees,
+        winner: "Who will win?!"
     });
     useEffect(() => {
         window.localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees));
     })
+
+    const [visible, setVisibility] = useState("hidden");
 
     var handleInputChange = event => {
         var { value } = event.target;
@@ -67,12 +70,18 @@ function SearchPage() {
         localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees))
     }
 
+    function revealWinner() {
+        setVisibility("visible")
+    }
+
     return (
         <div>
             <Title>Welcome to, THE SHOPPIES!</Title>
             <SearchBar onChange={handleInputChange} />
             {nominees.nominees.length === 5 ? (
-                <Banner />
+                <Banner onClick={() => revealWinner()}>
+                    <h1 style={{color: "white", visibility: `${visible}`}}>{nominees.nominees[Math.floor(Math.random() * nominees.nominees.length)].Title}</h1>
+                </Banner>
             ) : (
                 null
             )}
