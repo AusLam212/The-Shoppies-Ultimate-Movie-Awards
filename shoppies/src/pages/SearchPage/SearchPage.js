@@ -9,6 +9,9 @@ import Button from "../../components/Button/Button";
 import Banner from "../../components/Banner/Banner";
 import API from "../../utils/API";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBirthdayCake } from '@fortawesome/free-solid-svg-icons';
+
 
 function SearchPage() {
     const [search, setSearch] = useState({
@@ -24,8 +27,7 @@ function SearchPage() {
 
     var initialNominees = JSON.parse(window.localStorage.getItem("nomineeKey")) || [];
     const [nominees, setNominees] = useState({
-        nominees: initialNominees,
-        winner: "Who will win?!"
+        nominees: initialNominees
     });
     useEffect(() => {
         window.localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees));
@@ -71,7 +73,9 @@ function SearchPage() {
     }
 
     function revealWinner() {
-        setVisibility("visible")
+        if (visible === "hidden") {
+            setVisibility("visible");
+        }
     }
 
     return (
@@ -79,8 +83,8 @@ function SearchPage() {
             <Title>Welcome to, THE SHOPPIES!</Title>
             <SearchBar onChange={handleInputChange} />
             {nominees.nominees.length === 5 ? (
-                <Banner onClick={() => revealWinner()}>
-                    <h1 style={{color: "white", visibility: `${visible}`}}>{nominees.nominees[Math.floor(Math.random() * nominees.nominees.length)].Title}</h1>
+                <Banner onClick={() => revealWinner()} disabled={visible === "visible"}>
+                    <h1 style={{color: "white", visibility: `${visible}`}}><FontAwesomeIcon icon={faBirthdayCake}/> {nominees.nominees[Math.floor(Math.random() * nominees.nominees.length)].Title} <FontAwesomeIcon icon={faBirthdayCake} /></h1>
                 </Banner>
             ) : (
                 null
