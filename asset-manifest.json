@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/The-Shoppies-Ultimate-Movie-Awards/static/css/main.d183db0c.chunk.css",
+    "main.js": "/The-Shoppies-Ultimate-Movie-Awards/static/js/main.f7cffb88.chunk.js",
+    "main.js.map": "/The-Shoppies-Ultimate-Movie-Awards/static/js/main.f7cffb88.chunk.js.map",
+    "runtime-main.js": "/The-Shoppies-Ultimate-Movie-Awards/static/js/runtime-main.828abd4e.js",
+    "runtime-main.js.map": "/The-Shoppies-Ultimate-Movie-Awards/static/js/runtime-main.828abd4e.js.map",
+    "static/css/2.4c97ca4f.chunk.css": "/The-Shoppies-Ultimate-Movie-Awards/static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.561f7c96.chunk.js": "/The-Shoppies-Ultimate-Movie-Awards/static/js/2.561f7c96.chunk.js",
+    "static/js/2.561f7c96.chunk.js.map": "/The-Shoppies-Ultimate-Movie-Awards/static/js/2.561f7c96.chunk.js.map",
+    "static/js/3.0157911d.chunk.js": "/The-Shoppies-Ultimate-Movie-Awards/static/js/3.0157911d.chunk.js",
+    "static/js/3.0157911d.chunk.js.map": "/The-Shoppies-Ultimate-Movie-Awards/static/js/3.0157911d.chunk.js.map",
+    "index.html": "/The-Shoppies-Ultimate-Movie-Awards/index.html",
+    "static/css/2.4c97ca4f.chunk.css.map": "/The-Shoppies-Ultimate-Movie-Awards/static/css/2.4c97ca4f.chunk.css.map",
+    "static/css/main.d183db0c.chunk.css.map": "/The-Shoppies-Ultimate-Movie-Awards/static/css/main.d183db0c.chunk.css.map",
+    "static/js/2.561f7c96.chunk.js.LICENSE.txt": "/The-Shoppies-Ultimate-Movie-Awards/static/js/2.561f7c96.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.828abd4e.js",
+    "static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.561f7c96.chunk.js",
+    "static/css/main.d183db0c.chunk.css",
+    "static/js/main.f7cffb88.chunk.js"
+  ]
+}
