@@ -14,10 +14,12 @@ import { faBirthdayCake } from '@fortawesome/free-solid-svg-icons';
 
 
 function SearchPage() {
+    // Used for setting users input in search bar
     const [search, setSearch] = useState({
         search: "",
         results: []
     });
+    // When search.search is changes, the makeSearch function will run, but only after the user is done typing
     useEffect(() => {
         const timeOutId = setTimeout(() => {
             makeSearch();
@@ -25,7 +27,9 @@ function SearchPage() {
         return () => clearTimeout(timeOutId);
     }, [search.search]);
 
+    // Sets nominees to localStorage value or an empty array if that is empty
     var initialNominees = JSON.parse(window.localStorage.getItem("nomineeKey")) || [];
+    // Used to store users selected nominees
     const [nominees, setNominees] = useState({
         nominees: initialNominees
     });
@@ -33,13 +37,16 @@ function SearchPage() {
         window.localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees));
     })
 
+    // Dictates if the winning nominee will be visible
     const [visible, setVisibility] = useState("hidden");
 
+    // Handles search bar input change, and sets state to that value
     var handleInputChange = event => {
         var { value } = event.target;
         setSearch({search: value});
     }
 
+    // Makes an API call to the OMDB API whenever the suer changes their input in the search bar
     function makeSearch() {
         if (search.search !== "" && search.search !== undefined) {
             API.search(search.search)
@@ -50,6 +57,7 @@ function SearchPage() {
         }
     }
 
+    // Used to set nominees in the nominees state
     function nominateMovie(data) {
         if (nominees.nominees.length < 5) {
             console.log(data);
@@ -65,6 +73,7 @@ function SearchPage() {
         }
     }
 
+    // Deletes nominees by checking for any repetative ids
     function deleteNomination(data) {
         var filteredNominees = nominees.nominees.filter(nom => nom.imdbID !== data.imdbID)
         setNominees({nominees: filteredNominees});
@@ -72,6 +81,7 @@ function SearchPage() {
         localStorage.setItem("nomineeKey", JSON.stringify(nominees.nominees))
     }
 
+    // Sets visbile state to visible
     function revealWinner() {
         if (visible === "hidden") {
             setVisibility("visible");
@@ -82,6 +92,7 @@ function SearchPage() {
         <div>
             <Title>Welcome to, THE SHOPPIES!</Title>
             <SearchBar onChange={handleInputChange} />
+            {/* {Once 5 nominees are picked this banner will be displayed} */}
             {nominees.nominees.length === 5 ? (
                 <Banner onClick={() => revealWinner()} disabled={visible === "visible"}>
                     <h1 style={{color: "white", visibility: `${visible}`}}><FontAwesomeIcon icon={faBirthdayCake}/> {nominees.nominees[Math.floor(Math.random() * nominees.nominees.length)].Title} <FontAwesomeIcon icon={faBirthdayCake} /></h1>
@@ -92,9 +103,11 @@ function SearchPage() {
             <div className="row">
                 <SearchList>
                     <h2 style={{textAlign: "center", marginTop: "20px", textDecoration: "underline"}}>Search:</h2>
+                    {/* Once the user has started typing in the search bar, this will map throught the data from the API call and pass that data into the SearchListItem component */}
                     {search.results ? (
                         search.results.map(movie => (
                             <SearchListItem key={movie.imdbID} id={movie.imdbID} img={movie.Poster} title={movie.Title} year={movie.Year}>
+                                {/* Includes a disabled prop that checks to see if this movie is already in the nominees list */}
                                 <Button disabled={nominees.nominees.filter(nominee => nominee.imdbID === movie.imdbID).length === 1} onClick={() => nominateMovie(movie)}>Vote!</Button>
                             </SearchListItem>
                         ))
@@ -104,6 +117,7 @@ function SearchPage() {
                 </SearchList>
                 <NomineeList>
                     <h2 style={{textAlign: "center", marginTop: "20px", textDecoration: "underline"}}>Nominees: {nominees.nominees.length}/5</h2>
+                    {/* Maps through the nominees state to pass each movie and its data into a NomineeItem component */}
                     {nominees.nominees.length > 0 ? (
                         nominees.nominees.map(nominee => (
                             <NomineeItem key={nominee.imdbID} id={nominee.imdbID} img={nominee.Poster} title={nominee.Title} year={nominee.Year}>
